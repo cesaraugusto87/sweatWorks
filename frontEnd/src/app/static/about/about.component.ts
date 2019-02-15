@@ -24,7 +24,7 @@ export class AboutComponent implements OnInit {
   ngOnInit() {
   }
 
-  search(name) {
+  search() {
     if (this.searchFormGroup.valid) {
       const search = this.searchFormGroup.value;
       this.searchResult = true;

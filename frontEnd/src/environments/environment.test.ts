@@ -4,6 +4,7 @@ export const environment = {
   appName: 'Sweatworks Test',
   envName: 'TEST',
   production: false,
+  baseUrl: 'http://localhost:3000',
   test: true,
   i18nPrefix: '',
   versions: {

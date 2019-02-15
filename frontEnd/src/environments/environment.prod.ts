@@ -3,6 +3,7 @@ const packageJson = require('../../package.json');
 export const environment = {
   appName: 'Sweatworks Test',
   envName: 'PROD',
+  baseUrl: 'http://localhost:3000',
   production: true,
   test: false,
   i18nPrefix: '/sweatworks',

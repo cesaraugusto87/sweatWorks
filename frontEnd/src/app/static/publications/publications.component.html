@@ -54,7 +54,7 @@
             [ngClass]="routeAnimationsElements">
         <div class="row" >
           <mat-form-field  class="col">
-            <mat-select [(value)]="selected" formControlName="author" id="author" placeholder="{{ 'sweatworks.publications.placeholder1' | translate }}" name="author">
+            <mat-select [(value)]="select" formControlName="author" id="author" placeholder="{{ 'sweatworks.publications.placeholder1' | translate }}" name="author">
               <mat-option *ngFor="let author of authors$ | async" [value]="author">
                 {{author.name}}
               </mat-option>
