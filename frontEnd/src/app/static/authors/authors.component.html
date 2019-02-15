@@ -1,0 +1,111 @@
+<div class="container" rtl>
+  <h1>{{ 'sweatworks.menu.authors' | translate }}</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>{{ 'sweatworks.authors.lists' | translate }}</h2>
+      <mat-card *ngFor="let author of authors$ | async" [ngClass]="routeAnimationsElements"
+                (click)=select(author) data-testid="crud-item" >
+        <h3 data-testid="item-title">{{author.name}}</h3>
+        <small>Email: {{author.email}}</small>
+        <br>
+        <small>Birth Date: {{author.birthDate}}</small>
+      </mat-card>
+      <p *ngIf="(authors$ | async)?.length === 0">{{'sweatworks.authors.empty' | translate}}</p>
+      <button type="button" mat-fab color="primary" class="add" [ngClass]="routeAnimationsElements"
+              *ngIf="!isEditing" (click)="addNew(authorForm)" data-testid="add-crud">
+        <fa-icon icon="plus"></fa-icon>
+      </button>
+    </div>
+    <div class="col-md-6">
+      <span class="d-flex justify-content-between">
+        <span class="d-flex justify-content-end">
+          <span *ngIf="selectedAuthor">
+            <button mat-icon-button color="accent" *ngIf="!isEditing" data-testid="edit-crud">
+              <fa-icon icon="edit" (click)="edit(selectedAuthor)" [matTooltip]="'sweatworks.examples.crud.tooltip.edit' | translate"
+                       matTooltipPosition="above">
+              </fa-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="delete(selectedAuthor)" data-testid="delete-crud">
+              <fa-icon icon="trash" [matTooltip]="'sweatworks.examples.crud.tooltip.delete' | translate"
+                       matTooltipPosition="above">
+              </fa-icon>
+            </button>
+            <button mat-icon-button (click)="deselect()">
+              <fa-icon icon="times" [matTooltip]="'sweatworks.examples.crud.tooltip.deselect' | translate"
+                       matTooltipPosition="above">
+              </fa-icon>
+            </button>
+          </span>
+        </span>
+      </span>
+
+      <form #authorForm="ngForm" [formGroup]="authorFormGroup" [style.display]="isEditing ? 'block' : 'none'"
+            [ngClass]="routeAnimationsElements">
+        <div class="row">
+          <mat-form-field class="col">
+            <input matInput placeholder="{{ 'sweatworks.authors.placeholder1' | translate }}"
+                   formControlName="name" required autofocus>
+            <mat-error *ngIf="authorFormGroup.get('name').invalid" data-testid="error-title-crud">
+              {{ 'sweatworks.authors.placeholder1' | translate }}
+              {{ 'sweatworks.authors.required' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field class="col">
+            <input matInput placeholder="{{ 'sweatworks.authors.placeholder2' | translate }}"
+                   formControlName="email" required>
+            <mat-error *ngIf="authorFormGroup.get('email').hasError('required')" data-testid="error-author-crud">
+              {{ 'sweatworks.publications.placeholder2' | translate }}
+              {{ 'sweatworks.publications.required' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field class="col">
+            <input matInput placeholder="{{ 'sweatworks.authors.placeholder3' | translate }}"
+                      formControlName="birthDate" type="date"/>
+            <mat-error *ngIf="authorFormGroup.get('birthDate').invalid">
+              {{ 'sweatworks.examples.crud.placeholder1' | translate }}
+              {{ 'sweatworks.publications.required' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <div class="col-12 d-flex justify-content-between">
+            <button (click)="save()" mat-raised-button color="primary">
+              {{'sweatworks.authors.save' | translate }}
+            </button>
+            <button (click)="cancelEditing()" mat-raised-button>
+              {{'sweatworks.authors.cancel' | translate }}
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <ng-container *ngIf="!isEditing">
+        <div [ngClass]="routeAnimationsElements" *ngIf="selectedAuthor; else noSelectedAuthorTmpl">
+          <h3>{{ selectedAuthor.name }}</h3>
+          <mat-divider></mat-divider>
+          <p>{{ selectedAuthor.email }}</p>
+          <i>{{ selectedAuthor.birthDate }}</i>
+        </div>
+
+        <ng-template #noSelectedAuthorTmpl>
+          <p [ngClass]="routeAnimationsElements">
+            {{'sweatworks.authors.noneSelected' | translate }}
+          </p>
+        </ng-template>
+      </ng-container>
+
+      <mat-card *ngFor="let publication of publications$ | async" [ngClass]="routeAnimationsElements"
+                data-testid="crud-item" >
+        <h3 data-testid="item-title">{{publication.title}}</h3>
+        <small>Created at: {{publication.createdDateTime}}</small>
+        <br>
+        <small>Body: {{publication.body}}</small>
+      </mat-card>
+
+    </div>
+  </div>
+</div>

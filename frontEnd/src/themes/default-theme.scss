@@ -1,0 +1,5 @@
+$sweatworks-primary: mat-palette($mat-indigo, 800, 300, 900);
+$sweatworks-accent: mat-palette($mat-light-blue);
+$sweatworks-warn: mat-palette($mat-pink, 600);
+
+$sweatworks-theme: mat-light-theme($sweatworks-primary, $sweatworks-accent, $sweatworks-warn);

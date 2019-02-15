@@ -1,0 +1,62 @@
+<div class="background">
+  <div class="gradient">
+    <div class="container">
+      <h1>{{ 'sweatworks.title.long' | translate }}</h1>
+      <div class="actions">
+        <a [ngClass]="routeAnimationsElements" mat-raised-button class="actions-main" color="primary" routerLink="../publications">
+          {{ 'sweatworks.menu.publications' | translate }}
+        </a>
+        <a mat-raised-button class="actions-main" color="accent" routerLink="../authors" [ngClass]="routeAnimationsElements">
+          {{ 'sweatworks.menu.authors' | translate }}
+        </a>
+      </div>
+      <div>
+        <form [formGroup]="searchFormGroup" [style.display]="'block'"
+              [ngClass]="routeAnimationsElements">
+          <div class="row">
+            <mat-form-field class="col">
+              <input matInput placeholder="{{ 'sweatworks.publications.placeholder2' | translate }}"
+                     formControlName="title" required autofocus>
+
+            </mat-form-field>
+            <button (click)="search()" mat-raised-button color="primary">
+              {{'sweatworks.publication.search' | translate }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="container" *ngIf="!searchResult">
+  <h2>Test Description</h2>
+  <p>Your task is to make a project using Angular 4+ that uses a REST API based on NodeJS using Serverless and using DynamoDB.</p>
+  <p>The site has to handle a database of authors and their publications.</p>
+  <p>Each publication needs to have the date and time, body and title.</p>
+  <p>Each author needs to have their name, email and date of birth.</p>
+  <p>You are asked to create an API to perform CRUD (Create, Read, Update and Delete) operations.</p>
+  <p>Each endpoint and its possible errors should be tested using https://github.com/visionmedia/supertest.</p>
+  <p>This project must be prepared to be deployed to different environments without modifying the code.</p>
+  <p>The front-end needs to show the publication list ordered by date, as well as the name of the author (name, email).</p>
+  <p>Use SASS and follow the component development approach for your frontend ( required )</p>
+  <p>Use BEM and adapt your layout to be responsive with media queries ( desirable )</p>
+  <p>The user should be able to invert the order of the publications showing the oldest ones first.</p>
+  <p>All the authors should be listed in a sidebar, and the user should be able to click on one and see a list of all of his/her publications.</p>
+  <p>The user should also be able to search publications by title (this has to be paginated).</p>
+  <p>Create a public repository (github or other service) and upload the code. Do not forget to include a clear documentation that allows us to start and test the project locally. Anything that is not specified here is up to your criteria, taking into account all the points mentioned above.
+  </p>
+</div>
+
+<div class="row" *ngIf="searchResult">
+  <div class="col-md-6">
+    <h2>{{ 'sweatworks.publications.lists' | translate }}</h2>
+    <mat-card *ngFor="let publications of publications$ | async" [ngClass]="routeAnimationsElements"
+               data-testid="crud-item" >
+      <h3 data-testid="item-title">{{publications.title}}</h3>
+      <small>Created at: {{publications.createdDateTime}}</small>
+      <br>
+      <small>Body: {{publications.body}}</small>
+    </mat-card>
+  </div>
+</div>

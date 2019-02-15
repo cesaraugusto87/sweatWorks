@@ -1,0 +1,118 @@
+<div class="container" rtl>
+  <h1>{{ 'sweatworks.menu.publications' | translate }}</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>{{ 'sweatworks.publications.lists' | translate }}</h2>
+      <button type="button" mat-fab color="primary" class="add" [ngClass]="routeAnimationsElements"
+              *ngIf="!isEditing" (click)="sort()" data-testid="add-crud">Sort
+      </button>
+
+      <mat-card *ngFor="let publication of publications$ | async" [ngClass]="routeAnimationsElements"
+                (click)=select(publication) data-testid="crud-item">
+        <div>
+          {{getAuthorInfo(publication)}}
+        <h3 data-testid="item-title">{{publication.title}}</h3>
+        <small>Date Created: {{publication.createdDateTime | date}}</small>
+        <br>
+        <small>Author {{publication.author ? publication.author.name : 'Author Error'}}</small>
+        <br>
+        <small>Email {{publication.author ? publication.author.email : 'Author Error'}}</small>
+        </div>
+      </mat-card>
+      <p *ngIf="(publications$ | async)?.length === 0">{{'sweatworks.publications.empty' | translate}}</p>
+      <button type="button" mat-fab color="primary" class="add" [ngClass]="routeAnimationsElements"
+              *ngIf="!isEditing" (click)="addNew(publicationForm)" data-testid="add-crud">
+        <fa-icon icon="plus"></fa-icon>
+      </button>
+
+    </div>
+    <div class="col-md-6">
+      <span class="d-flex justify-content-between">
+        <h2>{{ 'sweatworks.publications.subtitle2' | translate }}</h2>
+        <span class="d-flex justify-content-end">
+          <span *ngIf="selectedPublication">
+            <button mat-icon-button color="accent" *ngIf="!isEditing" data-testid="edit-crud">
+              <fa-icon icon="edit" (click)="edit(selectedPublication)" [matTooltip]="'sweatworks.examples.crud.tooltip.edit' | translate"
+                       matTooltipPosition="above">
+              </fa-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="delete(selectedPublication)" data-testid="delete-crud">
+              <fa-icon icon="trash" [matTooltip]="'sweatworks.examples.crud.tooltip.delete' | translate"
+                       matTooltipPosition="above">
+              </fa-icon>
+            </button>
+            <button mat-icon-button (click)="deselect()">
+              <fa-icon icon="times" [matTooltip]="'sweatworks.examples.crud.tooltip.deselect' | translate"
+                       matTooltipPosition="above">
+              </fa-icon>
+            </button>
+          </span>
+        </span>
+      </span>
+
+      <form #publicationForm="ngForm" [formGroup]="publicationFormGroup" [style.display]="isEditing ? 'block' : 'none'"
+            [ngClass]="routeAnimationsElements">
+        <div class="row" >
+          <mat-form-field  class="col">
+            <mat-select [(value)]="selected" formControlName="author" id="author" placeholder="{{ 'sweatworks.publications.placeholder1' | translate }}" name="author">
+              <mat-option *ngFor="let author of authors$ | async" [value]="author">
+                {{author.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="publicationFormGroup.get('author').hasError('required')" data-testid="error-author-crud">
+              {{ 'sweatworks.publications.placeholder2' | translate }}
+              {{ 'sweatworks.publications.required' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field class="col">
+            <input matInput placeholder="{{ 'sweatworks.publications.placeholder2' | translate }}"
+                   formControlName="title" required>
+            <mat-error *ngIf="publicationFormGroup.get('title').hasError('required')" data-testid="error-author-crud">
+              {{ 'sweatworks.publications.placeholder2' | translate }}
+              {{ 'sweatworks.publications.required' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field class="col">
+            <textarea matInput placeholder="{{ 'sweatworks.publications.placeholder3' | translate }}"
+                      formControlName="body" rows="5"></textarea>
+            <mat-error *ngIf="publicationFormGroup.get('body').invalid">
+              {{ 'sweatworks.examples.crud.placeholder1' | translate }}
+              {{ 'sweatworks.publications.required' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <div class="col-12 d-flex justify-content-between">
+            <button (click)="save()" mat-raised-button color="primary">
+              {{'sweatworks.publication.save' | translate }}
+            </button>
+            <button (click)="cancelEditing()" mat-raised-button>
+              {{'sweatworks.publication.cancel' | translate }}
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <ng-container *ngIf="!isEditing">
+        <div [ngClass]="routeAnimationsElements" *ngIf="selectedPublication; else noSelectedPublicationTmpl">
+          <h3>{{ selectedPublication.title }}</h3>
+          <mat-divider></mat-divider>
+          <p>{{ selectedPublication.body }}</p>
+          <i>{{ selectedPublication.author.name }}</i>
+          <i>{{ selectedPublication.author.email }}</i>
+        </div>
+
+        <ng-template #noSelectedPublicationTmpl>
+          <p [ngClass]="routeAnimationsElements">
+            {{'sweatworks.authors.noneSelected' | translate }}.
+          </p>
+        </ng-template>
+      </ng-container>
+
+    </div>
+  </div>
+</div>

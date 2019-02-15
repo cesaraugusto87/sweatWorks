@@ -1,0 +1,9 @@
+$sweatworks-nature-primary: mat-palette($mat-brown, 700, 300, 900);
+$sweatworks-nature-accent: mat-palette($mat-deep-purple, 300);
+$sweatworks-nature-warn: mat-palette($mat-red, 600);
+
+$sweatworks-nature-theme: mat-light-theme(
+  $sweatworks-nature-primary,
+  $sweatworks-nature-accent,
+  $sweatworks-nature-warn
+);

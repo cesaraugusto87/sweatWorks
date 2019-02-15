@@ -1,0 +1,9 @@
+$sweatworks-black-primary: mat-palette($mat-grey, 700, 300, 900);
+$sweatworks-black-accent: mat-palette($mat-blue-grey, 400);
+$sweatworks-black-warn: mat-palette($mat-red, 500);
+
+$sweatworks-black-theme: mat-dark-theme(
+  $sweatworks-black-primary,
+  $sweatworks-black-accent,
+  $sweatworks-black-warn
+);
